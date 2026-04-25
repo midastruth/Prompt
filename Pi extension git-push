@@ -1,0 +1,11 @@
+Create a Pi extension that adds `/push`.
+
+When invoked, `/push` should directly synthesize a Git Bash tool call to push the current worktree to GitHub main, instead of first asking the LLM what command to run.
+
+It should also synthesize a user message:
+
+"Please push this worktree to GitHub main."
+
+The success path should be low-latency and mostly deterministic. If the command exits non-zero, pass stdout/stderr/exit code back to the LLM so it can diagnose and handle the failure.
+
+Please keep the implementation small, readable, and consistent with Pi’s extension style.
