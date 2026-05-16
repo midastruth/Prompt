@@ -9,3 +9,31 @@ It should also synthesize a user message:
 The success path should be low-latency and mostly deterministic. If the command exits non-zero, pass stdout/stderr/exit code back to the LLM so it can diagnose and handle the failure.
 
 Please keep the implementation small, readable, and consistent with Pi’s extension style.
+
+
+
+
+================================================================================================
+
+请为 Pi 新建一个 extension，添加 /push 命令。
+
+用户运行 /push 后，不要先问 LLM 应该执行什么命令，而是直接执行一个确定性的发布流程：
+
+1. 读取 package.json version
+2. 自动递增 patch 版本号
+3. 修改 package.json
+4. git add -A
+5. git commit -m "chore: release v<newVersion>"
+6. git tag v<newVersion>
+7. git push origin main --tags
+
+同时合成用户消息：
+
+"Please push this worktree to GitHub main."
+
+成功时直接提示发布成功，不调用 LLM。
+失败时把失败步骤、stdout、stderr、exit code、执行过的命令交给 LLM 诊断。
+
+只创建新的 Pi extension，不要修改现有业务代码。
+保持代码小、清晰、可读，并符合 Pi extension 风格。
+
